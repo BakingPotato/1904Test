@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>stats</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<table class="TEst">
+    <tr>
+        <th></th>
+        <th>{{name1}}</th>
+        <th>{{name2}}</th>
+    </tr>
+    <tr>
+        <th>Victorias</th>
+        {{#victorias}}
+            <td>{{.}}</td>
+        {{/victorias}}
+    </tr>
+    <tr>
+        <th>Derrotas</th>
+        {{#derrotas}}
+            <td>{{.}}</td>
+        {{/derrotas}}
+    </tr>
+    <tr>
+        <th>Empates</th>
+        {{#empates}}
+            <td>{{.}}</td>
+        {{/empates}}
+    </tr>
+</table>
+
+<a href="index.html">Volver</a>
+</body>
+</html>
