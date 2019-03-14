@@ -43,6 +43,8 @@ public class TicTacToeHandler extends TextWebSocketHandler {
 	private TicTacToeGame game;
 	private ConcurrentMap<WebSocketSession, Connection> connections = new ConcurrentHashMap<>();
 
+	protected Stats stats = new Stats();
+
 	public TicTacToeHandler() {
 		newGame();
 	}
@@ -111,7 +113,22 @@ public class TicTacToeHandler extends TextWebSocketHandler {
 				break;
 
 			case RESTART:
-
+				for (Player p: game.getPlayers() ) {
+					if (stats.getPlayerStats(p) == null) {
+						stats.addPlayerStats(p, new PlayerStats(0, 0, 0));
+					}
+					else{
+						if (game.checkDraw()) {
+							stats.addDraw(p);
+						}
+						else if (game.checkTurn(p.getId())){
+							stats.addWin(p);
+						}
+						else{
+							stats.addLoss(p);
+						}
+					}
+				}
 				game.restart();
 				break;
 			}

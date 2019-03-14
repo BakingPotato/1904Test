@@ -10,10 +10,16 @@ public class Stats {
         return statsList.get(player.getId());
     }
 
-    public void updatePlayerStats(Player player, PlayerStats playerStats) {
-        if (statsList.get(player.getId()) != null)
-            statsList.remove(player.getId());
-        statsList.add(player.getId(), playerStats);
+    public void addWin(Player player){
+        statsList.get(player.getId()).addWin();
+    }
+
+    public void addLoss(Player player){
+        statsList.get(player.getId()).addLoss();
+    }
+
+    public void addDraw(Player player){
+        statsList.get(player.getId()).addDraw();
     }
 
     public void addPlayerStats(Player player, PlayerStats playerStats) {
