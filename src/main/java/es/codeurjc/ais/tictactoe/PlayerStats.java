@@ -18,7 +18,7 @@ public class PlayerStats {
         return wins;
     }
 
-    public void addWin(int wins) {
+    public void addWin() {
         this.wins++;
     }
 
@@ -26,7 +26,7 @@ public class PlayerStats {
         return losses;
     }
 
-    public void addLoss(int losses) {
+    public void addLoss() {
         this.losses++;
     }
 
@@ -34,7 +34,7 @@ public class PlayerStats {
         return draws;
     }
 
-    public void addDraw(int draws) {
+    public void addDraw() {
         this.draws++;
     }
 }
