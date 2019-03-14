@@ -18,23 +18,23 @@ public class PlayerStats {
         return wins;
     }
 
-    public void setWins(int wins) {
-        this.wins = wins;
+    public void addWin(int wins) {
+        this.wins++;
     }
 
     public int getLosses() {
         return losses;
     }
 
-    public void setLosses(int losses) {
-        this.losses = losses;
+    public void addLoss(int losses) {
+        this.losses++;
     }
 
     public int getDraws() {
         return draws;
     }
 
-    public void setDraws(int draws) {
-        this.draws = draws;
+    public void addDraw(int draws) {
+        this.draws++;
     }
 }
