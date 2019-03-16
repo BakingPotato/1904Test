@@ -1,5 +1,6 @@
 package es.codeurjc.ais.tictactoe;
 
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -43,7 +44,7 @@ public class TicTacToeHandler extends TextWebSocketHandler {
 	private TicTacToeGame game;
 	private ConcurrentMap<WebSocketSession, Connection> connections = new ConcurrentHashMap<>();
 
-	protected Stats stats = new Stats();
+	private Stats stats = new Stats();
 
 	public TicTacToeHandler() {
 		newGame();
@@ -136,6 +137,14 @@ public class TicTacToeHandler extends TextWebSocketHandler {
 		} catch (Exception e) {
 			showError(jsonMsg, e);
 		}
+	}
+
+	public Stats getStats(){
+		return this.stats;
+	}
+
+	public List<Player> getPlayers(){
+		return this.game.getPlayers();
 	}
 
 	
