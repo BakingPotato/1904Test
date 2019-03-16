@@ -7,29 +7,24 @@
     <link rel="stylesheet" href="/css/statsStyle.css">
 </head>
 <body>
-<table class="TEst">
+<table class="Test">
     <tr>
         <th></th>
-        <th>{{name1}}</th>
-        <th>{{name2}}</th>
-    </tr>
-    <tr>
         <th>Victorias</th>
-        {{#victorias}}
-            <td>{{.}}</td>
-        {{/victorias}}
-    </tr>
-    <tr>
         <th>Derrotas</th>
-        {{#derrotas}}
-            <td>{{.}}</td>
-        {{/derrotas}}
+        <th>Empates</th>
     </tr>
     <tr>
-        <th>Empates</th>
-        {{#empates}}
+        <th>{{name1}}</th>
+        {{#stats1}}
             <td>{{.}}</td>
-        {{/empates}}
+        {{/stats1}}
+    </tr>
+    <tr>
+        <th>{{name2}}</th>
+        {{#stats2}}
+            <td>{{.}}</td>
+        {{/stats2}}
     </tr>
 </table>
 
