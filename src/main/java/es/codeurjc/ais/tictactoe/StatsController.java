@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class StatsController {
@@ -17,13 +18,13 @@ public class StatsController {
     public String showStats(Model model){
 
         StatisticsService stats = ttth.getStats();
-        List<Player> players = ttth.getPlayers();
+        Set<Player> players = stats.getPlayers();
 
-        model.addAttribute("name1", players.get(0).getName());
-        model.addAttribute("name2", players.get(1).getName());
-        model.addAttribute("stats1", stats.getPlayerStats(players.get(0)));
-        model.addAttribute("stats2", stats.getPlayerStats(players.get(1)));
+        for (Player p: players) {
+            model.addAttribute("name" + p.getId(), p.getName());
+            model.addAttribute("stats" + p.getId(), stats.getPlayerStats(p));
+        }
 
-        return "/stats.mustache";
+        return "stats_template";
     }
 }

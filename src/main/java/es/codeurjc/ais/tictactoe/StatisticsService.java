@@ -2,12 +2,17 @@ package es.codeurjc.ais.tictactoe;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class StatisticsService {
     private Map<Player, PlayerStats> statsMap = new HashMap<>();
 
     public PlayerStats getPlayerStats(Player player) {
         return statsMap.get(player);
+    }
+
+    public Set<Player> getPlayers(){
+        return statsMap.keySet();
     }
 
     public void addWin(Player player){

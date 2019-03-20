@@ -142,11 +142,6 @@ public class TicTacToeHandler extends TextWebSocketHandler {
 	public StatisticsService getStats(){
 		return this.stats;
 	}
-
-	public List<Player> getPlayers(){
-		return this.game.getPlayers();
-	}
-
 	
 
 	private void showError(String jsonMsg, Exception e) {
