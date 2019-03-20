@@ -44,7 +44,7 @@ public class TicTacToeHandler extends TextWebSocketHandler {
 	private TicTacToeGame game;
 	private ConcurrentMap<WebSocketSession, Connection> connections = new ConcurrentHashMap<>();
 
-	private Stats stats = new Stats();
+	private StatisticsService stats = new StatisticsService();
 
 	public TicTacToeHandler() {
 		newGame();
@@ -139,7 +139,7 @@ public class TicTacToeHandler extends TextWebSocketHandler {
 		}
 	}
 
-	public Stats getStats(){
+	public StatisticsService getStats(){
 		return this.stats;
 	}
 

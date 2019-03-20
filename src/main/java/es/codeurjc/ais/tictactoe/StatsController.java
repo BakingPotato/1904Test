@@ -16,7 +16,7 @@ public class StatsController {
     @RequestMapping("/stats")
     public String showStats(Model model){
 
-        Stats stats = ttth.getStats();
+        StatisticsService stats = ttth.getStats();
         List<Player> players = ttth.getPlayers();
 
         model.addAttribute("name1", players.get(0).getName());
