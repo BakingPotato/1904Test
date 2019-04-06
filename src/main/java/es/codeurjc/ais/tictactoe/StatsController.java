@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -20,10 +21,16 @@ public class StatsController {
         StatisticsService stats = ttth.getStats();
         Set<Player> players = stats.getPlayers();
 
+        List<String> names = new ArrayList<>();
+        List<PlayerStats> playerStats = new ArrayList<>();
+
         for (Player p: players) {
-            model.addAttribute("name" + p.getId(), p.getName());
-            model.addAttribute("stats" + p.getId(), stats.getPlayerStats(p));
+            names.add(p.getName());
+            playerStats.add(stats.getPlayerStats(p));
         }
+
+        model.addAttribute("names", names);
+        model.addAttribute("stats", playerStats);
 
         return "stats_template";
     }
