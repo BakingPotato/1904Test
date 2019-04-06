@@ -37,4 +37,9 @@ public class PlayerStats {
     public void addDraw() {
         this.draws++;
     }
+
+    @Override
+    public String toString(){
+        return "Wins: " + wins + ", Losses: " + losses + ", Draws: " + draws;
+    }
 }

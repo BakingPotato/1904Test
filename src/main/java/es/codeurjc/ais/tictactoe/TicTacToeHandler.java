@@ -118,17 +118,17 @@ public class TicTacToeHandler extends TextWebSocketHandler {
 					if (stats.getPlayerStats(p) == null) {
 						stats.addPlayerStats(p, new PlayerStats(0, 0, 0));
 					}
-					else{
-						if (game.checkDraw()) {
-							stats.addDraw(p);
-						}
-						else if (game.checkTurn(p.getId())){
-							stats.addWin(p);
-						}
-						else{
-							stats.addLoss(p);
-						}
+					if (game.checkDraw()) {
+						stats.addDraw(p);
 					}
+					else if (game.checkTurn(p.getId())){
+						stats.addWin(p);
+					}
+					else{
+						stats.addLoss(p);
+					}
+					System.out.println(stats.getPlayerStats(p));
+
 				}
 				game.restart();
 				break;
