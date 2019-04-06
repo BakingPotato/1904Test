@@ -1,6 +1,7 @@
 package es.codeurjc.ais.tictactoe;
 
 public class PlayerStats {
+    private String name;
     private int wins;
     private int losses;
     private int draws;
@@ -8,11 +9,16 @@ public class PlayerStats {
     public PlayerStats() {
     }
 
-    public PlayerStats(int wins, int losses, int draws) {
+    public PlayerStats(String name, int wins, int losses, int draws) {
+        this.name = name;
         this.wins = wins;
         this.losses = losses;
         this.draws = draws;
     }
+
+    public String getName() { return name; }
+
+    public void setName(String name) { this.name = name; }
 
     public int getWins() {
         return wins;
@@ -40,6 +46,6 @@ public class PlayerStats {
 
     @Override
     public String toString(){
-        return "Wins: " + wins + ", Losses: " + losses + ", Draws: " + draws;
+        return "Stats for" + name + " -> Wins: " + wins + ", Losses: " + losses + ", Draws: " + draws;
     }
 }
