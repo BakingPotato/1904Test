@@ -116,7 +116,7 @@ public class TicTacToeHandler extends TextWebSocketHandler {
 			case RESTART:
 				for (Player p: game.getPlayers() ) {
 					if (stats.getPlayerStats(p) == null) {
-						stats.addPlayerStats(p, new PlayerStats(0, 0, 0));
+						stats.addPlayerStats(p, new PlayerStats(p.getName() , 0, 0, 0));
 					}
 					if (game.checkDraw()) {
 						stats.addDraw(p);

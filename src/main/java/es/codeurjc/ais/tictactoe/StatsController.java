@@ -21,15 +21,12 @@ public class StatsController {
         StatisticsService stats = ttth.getStats();
         Set<Player> players = stats.getPlayers();
 
-        List<String> names = new ArrayList<>();
         List<PlayerStats> playerStats = new ArrayList<>();
 
         for (Player p: players) {
-            names.add(p.getName());
             playerStats.add(stats.getPlayerStats(p));
         }
 
-        model.addAttribute("names", names);
         model.addAttribute("stats", playerStats);
 
         return "stats_template";
