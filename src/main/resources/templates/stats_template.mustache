@@ -14,19 +14,16 @@
         <th>Derrotas</th>
         <th>Empates</th>
     </tr>
+    {{#players}}
     <tr>
-        <th>{{name1}}</th>
-        {{#stats1}}
-            <td>{{.}}</td>
-        {{/stats1}}
+        <th>{{name}}</th>
+        {{#stats}}
+            <td>{{wins}}</td>
+            <td>{{losses}}</td>
+            <td>{{draws}}</td>
+        {{/stats}}
     </tr>
-    <tr>
-        <th>{{name2}}</th>
-        {{#stats2}}
-            <td>{{.}}</td>
-        {{/stats2}}
-    </tr>
+    {{/players}}
 </table>
-
 </body>
 </html>
