@@ -1,10 +1,12 @@
 package es.codeurjc.ais.tictactoe;
 
-
 public class ComputerPlayer {
 
-    private Board board = new Board();
+    private Board board;
 
+    public ComputerPlayer() {
+    	board = new Board();
+	}
 
     public int findBestMove(int movement, String label) {
         board.getCell(movement).value = label;
@@ -18,7 +20,7 @@ public class ComputerPlayer {
                 cell.active = false;
                 cell.value = label;
 
-                int moveValue = minimax(board, 0, false, "X", "O");
+                int moveValue = minimax(0, false, "X", "O");
 
                 cell.active = true;
                 cell.value = null;
@@ -32,20 +34,16 @@ public class ComputerPlayer {
         return bestMove;
     }
 
-    public static boolean hasMovesLeft(Board board) {
-        for (int i = 0; i < 9; i++) {
-            if (board.getCell(i).active)
-                return true;
-        }
-        return false;
+    public boolean hasMovesLeft() {
+        return !board.checkDraw();
     }
 
-    public static int minimax(Board board, int depth, boolean maxTurn, String player1, String player2) {
-        int score = evaluate(board, player1, player2);
+    public int minimax(int depth, boolean maxTurn, String player1, String player2) {
+        int score = evaluate(player1, player2);
         if (score == 10 || score == -10) {
             return score;
         }
-        if (!hasMovesLeft(board)) {
+        if (!hasMovesLeft()) {
             return 0;
         }
         if (maxTurn) {
@@ -56,7 +54,7 @@ public class ComputerPlayer {
                     cell.active = false;
                     cell.value = player2;
 
-                    best = Math.max(best, minimax(board, depth++, !maxTurn, player1, player2));
+                    best = Math.max(best, minimax(depth++, !maxTurn, player1, player2));
 
                     cell.active = true;
                     cell.value = null;
@@ -72,7 +70,7 @@ public class ComputerPlayer {
                     cell.active = false;
                     cell.value = player1;
 
-                    best = Math.min(best, minimax(board, depth++, !maxTurn, player1, player2));
+                    best = Math.min(best, minimax(depth++, !maxTurn, player1, player2));
 
                     cell.active = true;
                     cell.value = null;
@@ -82,18 +80,7 @@ public class ComputerPlayer {
         }
     }
 
-    /**
-     * Returns the value of the board game.
-     * If it is favourable to the first player, returns +10.
-     * If it is favourable to the second player, returns -10.
-     * If it is favourable to no one, returns 0.
-     *
-     * @param   board the actual game board
-     * @param   player1 the first player's label
-     * @param   player2 the second player's label
-     * @return  the value of the actual board
-     */
-    public static int evaluate(Board board, String player1, String player2) {
+    public int evaluate(String player1, String player2) {
         int [] aux1 = board.getCellsIfWinner(player1);
         if (aux1 != null)
             return 10;
