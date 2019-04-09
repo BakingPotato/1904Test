@@ -1,27 +1,24 @@
 package es.codeurjc.ais.tictactoe;
 
 
-public class IA {
+public class ComputerPlayer {
 
-    /**
-     * Returns the best move that can be done.
-     * This method has to be called every time the machine has to make a move.
-     *
-     * @param   board the actual game board
-     * @param   player1label the label attribute of the first player
-     * @param   player2label the label attribute of the second player
-     * @return  [x,y] the coordinates of the best move
-     */
-    public static int findBestMove(Board board, String player1label, String player2label) {
+    private Board board = new Board();
+
+
+    public int findBestMove(int movement, String label) {
+        board.getCell(movement).value = label;
+        board.getCell(movement).active = false;
+
         int bestValue = Integer.MIN_VALUE;
         int bestMove = -1;
         for (int i = 0; i < 9; i++) {
             TicTacToeGame.Cell cell = board.getCell(i);
             if (cell.active) {
                 cell.active = false;
-                cell.value = player1label;
+                cell.value = label;
 
-                int moveValue = minimax(board, 0, false, player1label, player2label);
+                int moveValue = minimax(board, 0, false, "X", "O");
 
                 cell.active = true;
                 cell.value = null;
