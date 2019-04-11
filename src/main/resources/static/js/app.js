@@ -23,7 +23,10 @@ let container = document.querySelector('#gameBoard');
 let joinForm = document.querySelector('#joinForm');
 
 let startBtn = document.querySelector('#startBtn');
+let practiceBtn = document.querySelector('#practiceBtn');
 let nameInput = document.querySelector('#nickname');
+
+let practiceMode = false;
 
 let scoreBoard = [
     document.querySelector('#p1Score'),
@@ -45,8 +48,14 @@ function initJoinForm(){
 function start(){
 	
 	initJoinForm();
+    // If practice mode, connect to tictactoepractice
+    if (practiceMode){
+        socket = new WebSocket('ws://'+location.hostname+(location.port ? ':'+location.port: '')+'/tictactoepractice');
+    }
+	else{
+	    socket = new WebSocket('ws://'+location.hostname+(location.port ? ':'+location.port: '')+'/tictactoe');
+	}
 
-	socket = new WebSocket('ws://'+location.hostname+(location.port ? ':'+location.port: '')+'/tictactoe')
 	socket.onmessage = event => {
 		
 	    var msg = JSON.parse(event.data);
@@ -140,6 +149,17 @@ startBtn.addEventListener('click', event => {
 
     if (name.length > 0) {
         player.name = name;
+        sendMessage(events.outgoing.JOIN_GAME, { name: name });
+    }
+});
+
+practiceBtn.addEventListener('click', event => {
+
+	var name = nameInput.value.trim();
+
+    if (name.length > 0) {
+        player.name = name;
+        practiceMode = true;
         sendMessage(events.outgoing.JOIN_GAME, { name: name });
     }
 });

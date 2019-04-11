@@ -21,13 +21,19 @@ public class WebApp implements WebSocketConfigurer {
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
 		registry.addHandler(messageHandler(), "/tictactoe");
+		registry.addHandler(practiceMessageHandler(), "/tictactoepractice");
 	}
 
 	@Bean
 	public TicTacToeHandler messageHandler() {
 		return new TicTacToeHandler();
 	}
-	    
+
+	@Bean
+	public PracticeHandler practiceMessageHandler() {
+		return new PracticeHandler();
+	}
+
     public static void start() {
     	start(new String[] {});
     }
