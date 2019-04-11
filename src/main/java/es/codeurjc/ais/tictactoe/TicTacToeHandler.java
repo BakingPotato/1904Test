@@ -1,6 +1,5 @@
 package es.codeurjc.ais.tictactoe;
 
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -134,8 +133,6 @@ public class TicTacToeHandler extends TextWebSocketHandler {
 					else{
 						stats.addLoss(p);
 					}
-					System.out.println(stats.getPlayerStats(p));
-
 				}
 				game.restart();
 				break;
