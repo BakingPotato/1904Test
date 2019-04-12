@@ -2,6 +2,8 @@ package es.codeurjc.ais.tictactoe;
 
 public class ComputerPlayer {
 
+    final String computerLabel = "C";
+
     private Board board;
 
     public ComputerPlayer() {
@@ -9,6 +11,8 @@ public class ComputerPlayer {
 	}
 
     public int findBestMove(int movement, String label) {
+        if (board == null)
+            this.board = new Board();
         board.getCell(movement).value = label;
         board.getCell(movement).active = false;
 
@@ -18,9 +22,9 @@ public class ComputerPlayer {
             TicTacToeGame.Cell cell = board.getCell(i);
             if (cell.active) {
                 cell.active = false;
-                cell.value = label;
+                cell.value = computerLabel;
 
-                int moveValue = minimax(0, false, "X", "O");
+                int moveValue = minimax(0, false, "X", computerLabel);
 
                 cell.active = true;
                 cell.value = null;
@@ -31,6 +35,10 @@ public class ComputerPlayer {
                 }
             }
         }
+
+        board.getCell(bestMove).value = computerLabel;
+        board.getCell(bestMove).active = false;
+
         return bestMove;
     }
 
