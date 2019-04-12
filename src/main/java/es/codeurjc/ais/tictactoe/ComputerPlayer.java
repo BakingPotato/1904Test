@@ -8,11 +8,14 @@ public class ComputerPlayer {
 
     public ComputerPlayer() {
     	board = new Board();
+        this.board.enableAll();
 	}
 
     public int findBestMove(int movement, String label) {
-        if (board == null)
+        if (board == null) {
             this.board = new Board();
+            this.board.enableAll();
+        }
         board.getCell(movement).value = label;
         board.getCell(movement).active = false;
 
@@ -91,11 +94,11 @@ public class ComputerPlayer {
     public int evaluate(String player1, String player2) {
         int [] aux1 = board.getCellsIfWinner(player1);
         if (aux1 != null)
-            return 10;
+            return -10;
         else {
             aux1 = board.getCellsIfWinner(player2);
             if (aux1 != null)
-                return -10;
+                return 10;
             else
                 return 0;
         }
