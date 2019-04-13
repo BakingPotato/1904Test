@@ -94,7 +94,7 @@ public class PracticeHandler extends TextWebSocketHandler {
                         game.mark(msg.data.cellId);
                         // Si la partida no ha acabado
                         if (game.checkTurn(msg.data.playerId + 1 )){
-                            game.mark(computerPlayer.findBestMove(msg.data.cellId, game.getPlayers().get(1).getLabel()));
+                            game.mark(computerPlayer.findBestMove(msg.data.cellId));
                         }
                     }
                     break;
