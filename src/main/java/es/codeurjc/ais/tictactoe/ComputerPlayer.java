@@ -3,6 +3,9 @@ package es.codeurjc.ais.tictactoe;
 public class ComputerPlayer {
 
     final String computerLabel = "C";
+    final String player = "X";
+    final int minusInf = Integer.MIN_VALUE;
+    final int plusInf = Integer.MAX_VALUE;
 
     private Board board;
 
@@ -12,14 +15,10 @@ public class ComputerPlayer {
 	}
 
     public int findBestMove(int movement, String label) {
-        if (board == null) {
-            this.board = new Board();
-            this.board.enableAll();
-        }
-        board.getCell(movement).value = label;
+        board.getCell(movement).value = player;
         board.getCell(movement).active = false;
 
-        int bestValue = Integer.MIN_VALUE;
+        int bestValue = minusInf;
         int bestMove = -1;
         for (int i = 0; i < 9; i++) {
             TicTacToeGame.Cell cell = board.getCell(i);
@@ -27,7 +26,8 @@ public class ComputerPlayer {
                 cell.active = false;
                 cell.value = computerLabel;
 
-                int moveValue = minimax(0, false, "X", computerLabel);
+                //int moveValue = minimax(0, false, "X", computerLabel);
+				int moveValue = maxValor();
 
                 cell.active = true;
                 cell.value = null;
@@ -38,19 +38,87 @@ public class ComputerPlayer {
                 }
             }
         }
-
+		System.out.println("la funcion devuelve " + bestMove + "y el bestValue es " + bestValue);
         board.getCell(bestMove).value = computerLabel;
         board.getCell(bestMove).active = false;
 
         return bestMove;
     }
-
-    public boolean hasMovesLeft() {
-        return !board.checkDraw();
+    public int evaluate() {
+        int [] aux1 = board.getCellsIfWinner(player);
+        if (aux1 != null)
+            return -10;
+        else {
+            aux1 = board.getCellsIfWinner(computerLabel);
+            if (aux1 != null)
+                return 10;
+            else
+                return 0;
+        }
     }
 
-    public int minimax(int depth, boolean maxTurn, String player1, String player2) {
-        int score = evaluate(player1, player2);
+    public int maxValor() {
+    	int best = minusInf;
+    	int eval = this.evaluate();
+    	if (eval != 0) { // si es terminal
+    		return eval;
+		}
+		for (int i = 0; i < 9; i++) {
+
+			TicTacToeGame.Cell cell = board.getCell(i);
+
+			if (cell.active) {
+				cell.active = false;
+				cell.value = player;
+
+				best = Math.max(best, minValor());
+
+				cell.active = true;
+				cell.value = null;
+			}
+		}
+		return best;
+	}
+
+	public int minValor() {
+		int best = plusInf;
+		int eval = evaluate();
+		if (eval != 0) { // si es terminal
+			return eval;
+		}
+		for (int i = 0; i < 9; i++) {
+
+			TicTacToeGame.Cell cell = board.getCell(i);
+
+			if (cell.active) {
+				cell.active = false;
+				cell.value = computerLabel;
+
+				best = Math.min(best, maxValor());
+
+				cell.active = true;
+				cell.value = null;
+			}
+		}
+		return best;
+	}
+
+
+
+	public boolean isTerminal() {
+		return !board.checkDraw();
+	}
+
+	public boolean isTerm() {
+		for (int i = 0; i < 9; i++) {
+			if (board.getCell(i).active)
+				return false;
+		}
+		return true;
+	}
+
+    /*public int minimax(int depth, boolean maxTurn, String player1, String player2) {
+        int score = evaluate();
         if (score == 10 || score == -10) {
             return score;
         }
@@ -89,19 +157,7 @@ public class ComputerPlayer {
             }
             return best;
         }
-    }
+    }*/
 
-    public int evaluate(String player1, String player2) {
-        int [] aux1 = board.getCellsIfWinner(player1);
-        if (aux1 != null)
-            return -10;
-        else {
-            aux1 = board.getCellsIfWinner(player2);
-            if (aux1 != null)
-                return 10;
-            else
-                return 0;
-        }
-    }
 }
 
