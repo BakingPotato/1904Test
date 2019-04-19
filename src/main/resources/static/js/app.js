@@ -22,25 +22,25 @@ const events = {
 let container = document.querySelector('#gameBoard');
 let joinForm = document.querySelector('#joinForm');
 
-let startBtn = document.querySelector('#startBtn');
+let multiplayerBtn = document.querySelector('#multiplayerBtn');
 let practiceBtn = document.querySelector('#practiceBtn');
 let nameInput = document.querySelector('#nickname');
 
-let practiceMode = false;
 
 let scoreBoard = [
     document.querySelector('#p1Score'),
     document.querySelector('#p2Score')
 ];
 
-let socket;
+let socket = new WebSocket('ws://'+location.hostname+(location.port ? ':'+location.port: '')+'/tictactoe');;
 let player = {};
 let board;
 
 function initJoinForm(){
-	player = {};
+	//player = {};
 	board = new Board(scoreBoard);
-	startBtn.setAttribute('disabled', true);
+	multiplayerBtn.setAttribute('disabled', true);
+	practiceBtn.setAttribute('disabled', true);
 	nameInput.setAttribute('disabled', true);
 	nameInput.setAttribute('placeholder', 'Loading...');
 }
@@ -48,13 +48,6 @@ function initJoinForm(){
 function start(){
 	
 	initJoinForm();
-    // If practice mode, connect to tictactoepractice
-    if (practiceMode){
-        socket = new WebSocket('ws://'+location.hostname+(location.port ? ':'+location.port: '')+'/tictactoepractice');
-    }
-	else{
-	    socket = new WebSocket('ws://'+location.hostname+(location.port ? ':'+location.port: '')+'/tictactoe');
-	}
 
 	socket.onmessage = event => {
 		
@@ -129,7 +122,8 @@ function start(){
 	};
 
 	socket.onopen = event => {
-	    startBtn.removeAttribute('disabled');
+	    multiplayerBtn.removeAttribute('disabled');
+	    practiceBtn.removeAttribute('disabled');
 	    nameInput.removeAttribute('disabled');
 	    nameInput.removeAttribute('placeholder');
 	    nameInput.focus();
@@ -139,11 +133,11 @@ function start(){
 	board.onMark = cellId => {
 		sendMessage(events.outgoing.MARK, { playerId: player.id, cellId: cellId });
 	};
-	
-	player = {};
+
+	//player = {};
 }
 
-startBtn.addEventListener('click', event => {
+multiplayerBtn.addEventListener('click', event => {
     
 	var name = nameInput.value.trim();
 
@@ -159,8 +153,12 @@ practiceBtn.addEventListener('click', event => {
 
     if (name.length > 0) {
         player.name = name;
-        practiceMode = true;
-        sendMessage(events.outgoing.JOIN_GAME, { name: name });
+        socket.close();
+        socket = new WebSocket('ws://'+location.hostname+(location.port ? ':'+location.port: '')+'/tictactoepractice');
+        socket.onopen = event => {
+            sendMessage(events.outgoing.JOIN_GAME, { name: name });
+            start();
+        };
     }
 });
 
