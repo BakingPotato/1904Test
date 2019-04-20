@@ -20,7 +20,7 @@ import es.codeurjc.ais.tictactoe.TicTacToeGame.EventType;
 public class TicTacToeHandler extends TextWebSocketHandler {
 
 	enum ClientToServerAction {
-		JOIN_GAME, MARK, RESTART
+		JOIN_GAME, MARK, RESTART, MODE_CHANGE
 	}
 
 	static class ServerToClientMsg {
@@ -113,6 +113,9 @@ public class TicTacToeHandler extends TextWebSocketHandler {
 				game.addPlayer(player);
 				break;
 
+			case MODE_CHANGE:
+				break;
+
 			case MARK:
 				if (game.checkTurn(msg.data.playerId)) {
 					game.mark(msg.data.cellId);
@@ -120,6 +123,7 @@ public class TicTacToeHandler extends TextWebSocketHandler {
 				break;
 
 			case RESTART:
+				//Antes de hacer restart se obtiene el resultado de la partida de ambos jugadores y se actualizan sus stats
 				for (Player p: game.getPlayers() ) {
 					if (stats.getPlayerStats(p) == null) {
 						stats.addPlayerStats(p, new PlayerStats(p.getName() , 0, 0, 0));

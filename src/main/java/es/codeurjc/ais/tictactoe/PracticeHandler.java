@@ -22,19 +22,18 @@ public class PracticeHandler extends TextWebSocketHandler {
 
     private ComputerPlayer computerPlayer;
 
-
     public PracticeHandler() {
         newGame();
     }
 
-    private void newGame() {
+    private void newGame() { //Inicializa la partida y la IA
         game = new TicTacToeGame();
         computerPlayer = new ComputerPlayer();
     }
 
     @Override
     public synchronized void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        if (this.connections.size() < 1) {
+        if (this.connections.size() < 1) { //Limita las conexiones ya que la IA hace de segundo jugador
             Connection connection = new Connection(json, session);
             this.connections.put(session, connection);
             this.game.addConnection(connection);
@@ -60,7 +59,6 @@ public class PracticeHandler extends TextWebSocketHandler {
 
     @Override
     public synchronized void handleTextMessage(WebSocketSession session, TextMessage wsMsg) throws Exception {
-
         String jsonMsg = wsMsg.getPayload();
 
         System.out.println("Received message '" + jsonMsg + "' from client " + session.getId());
@@ -78,7 +76,7 @@ public class PracticeHandler extends TextWebSocketHandler {
 
             switch (msg.action) {
 
-                case JOIN_GAME:
+                case JOIN_GAME: //Inicializa al jugador y a la IA y los mete en la partida
                     int numPlayers = game.getPlayers().size();
                     int rand = (int) Math.random()*2;
                     String letter = rand == 0 ? "X" : "O";
@@ -89,7 +87,8 @@ public class PracticeHandler extends TextWebSocketHandler {
                     game.addPlayer(computer);
                     break;
 
-                case MARK:
+                case MARK: /*Marca el movimiento del jugador y luego le pasa la informacion a la IA para
+                    que haga su movimiento y poder marcarlo en la Board del jugador*/
                     if (game.checkTurn(msg.data.playerId)) {
                         game.mark(msg.data.cellId);
                         // Si la partida no ha acabado
@@ -100,7 +99,6 @@ public class PracticeHandler extends TextWebSocketHandler {
                     break;
 
                 case RESTART:
-
                     game.restart();
                     break;
             }
